@@ -1,3 +1,5 @@
+O modelo físico abaixo está na ordem de criação. O banco de dados deve ser criado na sequência abaixo.
+
 create database dveneza
 
 create table clientes (
