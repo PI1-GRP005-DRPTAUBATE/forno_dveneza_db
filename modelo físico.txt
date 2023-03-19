@@ -1,0 +1,112 @@
+create database dveneza
+
+create table clientes (
+	id_cliente integer not null auto_increment,
+	nome varchar(20) not null,
+	sobre_nome varchar(40),
+	sexo char(1),
+	data_nasc date,
+	cpf varchar(11),
+	cep varchar(9),
+	endereco varchar(50),
+	bairro varchar(20),
+	cidade varchar(20),
+	estado char(2),
+	tel varchar(15),
+	cel varchar(15),
+	email varchar(50),
+	senha varchar(30),
+	data_cad date not null,
+	constraint PK_clientes PRIMARY KEY (id_cliente)
+)
+	
+create table funcionarios (
+	id_func integer not null auto_increment,
+	nome varchar(20) not null,
+	sobre_nome varchar(40) not null,
+	data_nasc date not null,
+	sexo char(1) not null,
+	cargo varchar(40) not null,
+	cep varchar(9) not null,
+	endereco varchar(50) not null,
+	bairro varchar(20) not null,
+	cidade varchar(20) not null,
+	tel varchar(15),
+	cel varchar(15),
+	email varchar(50),
+	senha varchar(30),
+	data_admissao date,
+	data_demissao date,
+	data_cad date not null,
+	constraint PK_funcionarios PRIMARY KEY (id_func)
+)
+	
+create table categorias (
+	id_categoria integer primary key not null auto_increment,
+	descricao varchar(20)
+)
+
+create table produtos (
+	id_produto integer primary key not null auto_increment,
+	nome varchar(20) not null,
+	descricao varchar(400) not null,
+	foto varchar(40),
+	preco_uni decimal(10,2),
+	id_categoria integer not null,
+	data_cad date not null,
+	id_func integer not null,
+	foreign key (id_categoria) references categorias(id_categoria),
+	foreign key (id_func) references funcionarios(id_func)
+)
+
+
+create table pedidos (
+	id_pedido integer primary key not null auto_increment,
+	id_cliente integer not null,
+	id_produto integer not null,
+	qdt integer not null,
+	data date not null,
+	foreign key (id_cliente) references clientes(id_cliente),
+	foreign key (id_produto) references produtos(id_produto)
+)
+
+create table entregadores (
+	id_entregador integer primary key not null auto_increment,
+	nome varchar(20) not null,
+	sobre_nome varchar(40) not null,
+	empresa varchar(30) not null,
+	cpf varchar(11),
+	cnpj varchar(14),
+	tel varchar(15),
+	cel varchar(15),
+	cep varchar(9),
+	endereco varchar(50),
+	bairro varchar(20),
+	cidade varchar(20)
+)
+
+
+	
+create table compras (
+	id_compra integer primary key not null auto_increment,
+	cep varchar(9) not null,
+	endereco varchar(50) not null,
+	bairro varchar(20) not null,
+	cidade varchar(20)not null,
+	ref varchar(20),
+	v_total decimal (10,2) not null,
+	data_compra date not null,
+	id_cliente integer not null,
+	id_pedido integer not null,
+	foreign key (id_cliente) references clientes(id_cliente),
+	foreign key (id_pedido) references pedidos(id_pedido)
+)
+
+create table entregas (
+	id_entrega integer primary key not null auto_increment,
+	id_compra integer not null,
+	id_entregador integer not null,
+	foreign key (id_compra) references compras(id_compra),
+	foreign key (id_entregador) references entregadores(id_entregador)
+
+)
